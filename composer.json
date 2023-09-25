@@ -1,0 +1,25 @@
+{
+    "name": "Auniik/php-skeleton",
+    "description": "Its a skeleton app to start with",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "bootstrap/core/"
+        },
+        "files": [
+            "bootstrap/core/Helpers/functions.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Anik Datta"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.2"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
