@@ -5,7 +5,10 @@ body, h1, h2, p, form, ul, li {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
-
+a {
+    text-decoration: none !important;
+    color: white;
+}
 /* Navbar styles */
 
 .logo {
@@ -21,10 +24,18 @@ body, h1, h2, p, form, ul, li {
 nav {
     background-color: #ff7979;
     color: white;
-    padding: 15px 0;
+    /*padding: 15px 0;*/
     position: fixed; /* Make the navbar fixed to the top */
     width: 100%;
     z-index: 1000;
+}
+#navbar-menu li {
+    padding: 10px 7px;
+    margin: 0;
+    box-shadow: 0px -8px 3px 0px rgba(239, 151, 151, 0.7);
+}
+#navbar-menu a:hover {
+    background: #8d44453d;
 }
 
 .navbar-container {
@@ -48,10 +59,6 @@ nav {
     list-style: none;
     display: flex;
     flex-direction: row;
-}
-
-#navbar-menu li {
-    margin: 0 10px;
 }
 
 #navbar-menu li a {
@@ -247,7 +254,7 @@ nav {
 }
 
 .form-group input, .form-group textarea {
-    width: 100%;
+    width: -webkit-fill-available;
     padding: 15px;
     border: none;
     border-radius: 15px;
@@ -260,6 +267,10 @@ nav {
     height: 150px;
     resize: vertical;
 }
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+}
 
 button {
     background-color: #ff7979;
@@ -270,8 +281,7 @@ button {
     cursor: pointer;
     font-size: 18px;
     margin-top: 10px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), 
-                -4px -4px 8px rgba(255, 255, 255, 0.7);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgb(255 255 255 / 0%);
 }
 
 button:hover {
@@ -368,6 +378,7 @@ button:hover {
     overflow: auto;
     background-color: rgba(0,0,0,0.6);
     z-index: 1000;
+    backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -377,8 +388,7 @@ button:hover {
     border-radius: 15px;
     width: 80%;
     max-width: 500px;
-    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), 
-                -8px -8px 15px rgba(255, 255, 255, 0.7);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), -8px -8px 15px rgb(79 79 79 / 70%);
 }
 
 .close-btn {

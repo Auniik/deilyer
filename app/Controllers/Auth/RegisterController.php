@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Auth;
 
-use App\Services\HelloService;
+use App\Controllers\Controller;
 use Core\Container;
 use Core\Request;
 use Core\Response;
@@ -12,9 +12,11 @@ use Delight\Auth\AuthError;
 use Delight\Auth\EmailNotVerifiedException;
 use Delight\Auth\InvalidEmailException;
 use Delight\Auth\InvalidPasswordException;
+use Delight\Auth\Role;
 use Delight\Auth\TooManyRequestsException;
+use Delight\Auth\UnknownIdException;
 
-class LoginController extends Controller
+class RegisterController extends Controller
 {
 
     public function __construct(public Container $container)
@@ -26,7 +28,7 @@ class LoginController extends Controller
      */
     public function view(Request $request): bool|string
     {
-        return view('dashboard/login.view');
+        return view('dashboard/register.view');
     }
 
     /**
@@ -36,18 +38,18 @@ class LoginController extends Controller
      * @throws AttemptCancelledException
      * @throws InvalidPasswordException
      * @throws EmailNotVerifiedException
+     * @throws UnknownIdException
      */
-    public function login(Request $request)
+    public function register(Request $request): bool
     {
         /** @var Auth $auth */
         $auth = $this->container->make('auth');
-        $auth->login(
+        $userId = $auth->register(
             $request->body['email'],
             $request->body['password']
         );
+        $auth->admin()->addRoleForUserById($userId, Role::CONSUMER);
 
-        dd($auth->hasRole('admin'));
-
-        return Response::redirect('/');
+        return Response::redirect('/profile');
     }
 }

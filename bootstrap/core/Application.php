@@ -109,7 +109,7 @@ class Application
      */
     public function serve()
     {
-        $resolved = $this->bootRoutes('routes/index.php');
+        $resolved = $this->bootRoutes('routes/guest.php');
         if ($resolved) {
             return;
         }
