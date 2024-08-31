@@ -3,6 +3,7 @@
 
 use Core\Application;
 
+require_once __DIR__ . '/exceptions.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(base_path('/'));
 $dotenv->load();

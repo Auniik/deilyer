@@ -64,21 +64,22 @@ class Application
     }
 
     /**
-     * @return $this
+     *
+     * @throws \ReflectionException
      */
-    public function bootRoutes(): static
+    public function bootRoutes($routeFile, $isAuthenticable = false)
     {
-        $router = require base_path('routes/index.php');
-
+        $router = require base_path($routeFile);
         $uri = parse_url($this->server['REQUEST_URI'])['path'];
         $method = $this->request->body->_method ?? $this->server['REQUEST_METHOD'];
         /** @var Router $router */
-        $router->setApp($this)
+        $resolved = $router->setApp($this)
             ->route(
-                $method,
-                $uri
+                method: $method,
+                uri: $uri,
+                isAuthenticable: $isAuthenticable
             );
-        return $this;
+        return $resolved;
     }
 
     /**
@@ -103,10 +104,21 @@ class Application
 
     /**
      * @return void
+     * @throws \ReflectionException
      */
-    public function serve(): void
+    public function serve()
     {
-        $this->bootRoutes();
+        $resolved = $this->bootRoutes('routes/index.php');
+        if ($resolved) {
+            return;
+        }
+
+        $resolved = $this->bootRoutes('routes/auth.php', isAuthenticable: true);
+        if ($resolved) {
+            return;
+        }
+
+        abort(404);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Exception;
 use ReflectionClass;
 
 class Container
@@ -11,16 +12,29 @@ class Container
     public function bind(string|array $key, mixed $resolver = null): void
     {
         if (!is_array($key)) {
+            if ($resolver instanceof \Closure) {
+                $this->resolvedDependencies[$key] = $resolver;
+            }
             $this->bindings[$key] = $resolver;
             return;
         }
 
-        $this->bindings = array_merge($this->bindings, $key);
-
+        foreach ($key as $alias => $resolver) {
+            if (!$resolver instanceof \Closure) {
+                $this->resolvedDependencies[$alias] = $resolver;
+                continue;
+            }
+            $this->bindings[$alias] = $resolver;
+        }
+//        dd($this->resolvedDependencies, $this->bindings);
     }
 
     public function make(string $key): mixed
     {
+        if (array_key_exists($key, $this->resolvedDependencies)) {
+            return $this->resolvedDependencies[$key];
+        }
+
         if (!array_key_exists($key, $this->bindings)) {
             throw new \Exception(" Bonk! No bindings has been added for $key");
         }
@@ -29,6 +43,9 @@ class Container
         return call_user_func($resolver);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function resolve(string $className): mixed
     {
         // Check if the class has already been resolved and return it if so

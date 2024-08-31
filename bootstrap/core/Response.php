@@ -4,6 +4,13 @@ namespace Core;
 
 class Response
 {
+    public static function redirect($to, $status = 200): bool
+    {
+        http_response_code($status);
+        header("Location: $to");
+        return true;
+    }
+
     public function __construct(
         protected $content,
         protected $status = 200,

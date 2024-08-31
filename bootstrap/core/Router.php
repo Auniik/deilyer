@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use JetBrains\PhpStorm\NoReturn;
+
 class Router
 {
     protected Application $app;
@@ -15,6 +17,7 @@ class Router
     public function route(
         string $method,
         string $uri,
+        bool $isAuthenticable = false
     )
     {
         foreach ($this->routes as $route) {
@@ -23,10 +26,10 @@ class Router
                 && strtoupper($method) === $route['method']
             ) {
                 $this->app::resolve($route['handler']);
-                return $this->resolveHandlerWithDependencies($route);
+                return $this->resolveHandlerWithDependencies($route, $isAuthenticable);
             }
         }
-        return abort(404);
+        return false;
     }
 
     /**
@@ -158,9 +161,18 @@ class Router
     /**
      * @throws \ReflectionException
      */
-    private function resolveHandlerWithDependencies(mixed $route)
+    #[NoReturn] private function resolveHandlerWithDependencies(mixed $route, $isAuthenticable)
     {
+        if ($isAuthenticable) {
+            if (!$this->app::make('auth')->isLoggedIn()) {
+                return Response::redirect("/login");
+            }
+        }
         $instance = $this->app::get($route['handler']);
+        dd($instance->{$route['func']}(
+            $this->app->getRequest(),
+            ...$route['params']
+        ));
         return $instance->{$route['func']}(
             $this->app->getRequest(),
             ...$route['params']

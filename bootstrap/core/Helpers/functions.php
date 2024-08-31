@@ -26,6 +26,13 @@ if (!function_exists('static_path')) {
     }
 }
 
+if (!function_exists('public_path')) {
+    function public_path(string $path = ''): string
+    {
+        return BASE_PATH . DIRECTORY_SEPARATOR . 'public' . $path;
+    }
+}
+
 if (!function_exists('config')) {
     function config(string $file): mixed
     {
@@ -68,6 +75,7 @@ if (!function_exists('view')) {
         include $viewFullPath;
 
         // Get the contents of the output buffer and clean it
-        return ob_get_clean();
+        ob_get_clean();
+        return true;
     }
 }
