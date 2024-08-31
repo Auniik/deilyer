@@ -159,7 +159,7 @@ class Router
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws \ReflectionException|\Exception
      */
     #[NoReturn] private function resolveHandlerWithDependencies(mixed $route, $isAuthenticable)
     {
@@ -169,10 +169,9 @@ class Router
             }
         }
         $instance = $this->app::get($route['handler']);
-        dd($instance->{$route['func']}(
-            $this->app->getRequest(),
-            ...$route['params']
-        ));
+        if (!method_exists($instance, $route['func'])) {
+            throw new \Exception("Route handler method does not exist");
+        }
         return $instance->{$route['func']}(
             $this->app->getRequest(),
             ...$route['params']

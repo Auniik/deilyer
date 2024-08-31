@@ -79,6 +79,8 @@ class Container
                 } else {
                     throw new Exception("Cannot resolve parameter {$parameter->getName()} for class {$className}");
                 }
+            } else if ($type->getName() == Container::class) {
+                $resolvedParameters[] = $this;
             } else {
                 // Recursively resolve the dependent class
                 $dependentClassName = $type->getName();

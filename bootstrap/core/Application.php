@@ -105,6 +105,7 @@ class Application
     /**
      * @return void
      * @throws \ReflectionException
+     * @throws \Exception
      */
     public function serve()
     {

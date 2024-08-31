@@ -28,7 +28,7 @@ class Request
         $instance->uri = $server['REQUEST_URI'];
         parse_str($server['QUERY_STRING'], $instance->query);
         $instance->raw = $_POST ?: file_get_contents('php://input');
-        $instance->body = json_decode($instance->getRaw());
+        $instance->body = is_string($instance->getRaw()) ? json_decode($instance->getRaw()) : $instance->getRaw();
         $instance->queryString = $server['QUERY_STRING'] ?: null;
         $instance->headers = getallheaders();
 

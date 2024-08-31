@@ -14,7 +14,8 @@ $router->post('/hello/{id}/product/{product_id}/order', HelloController::class, 
 
 $router->get('/', HomeController::class, 'view');
 
-$router->get('/login', LoginController::class, 'login');
+$router->get('/login', LoginController::class, 'view');
+$router->post('/login', LoginController::class, 'login');
 
 
 
