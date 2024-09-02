@@ -1,59 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/static/dashboard/styles.css">
-</head>
-<body>
-    <div class="dashboard-container">
-        <header class="navbar">
-            <div class="navbar-container">
-                <div></div>
-<!--                <div class="navbar-brand">-->
-<!--                    <h1>Admin Panel</h1>-->
-<!--                </div>-->
-                <ul class="navbar-menu">
-                    <li><a href="#">Home</a></li>
-<!--                    <li><a href="#">Settings</a></li>-->
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </div>
-        </header>
+<?php include_once view_path('dashboard/header.view.php'); ?>
+<?php
+    
+?>
+    <!--<h1>Welcome to the Admin Dashboard</h1>-->
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>Admin Dashboard</h2>
-            <ul class="menu">
-                <li>
-                    <a href="#" class="menu-item">Dashboard</a>
-                </li>
-                <li>
-                    <a href="#" class="menu-item">Users</a>
-                    <ul class="submenu">
-                        <li><a href="#">Add User</a></li>
-                        <li><a href="#">Manage Users</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="menu-item">Settings</a>
-                    <ul class="submenu">
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="#">Security</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="menu-item">Reports</a>
-                </li>
-                <li><a href="#" class="menu-item">Logout</a></li>
-            </ul>
-        </aside>
-
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <h1>Welcome to the Admin Dashboard</h1>
+    <div class="card">
+        <div class="card-header">
+            <h3>Card Title</h3>
+        </div>
+        <div class="card-body">
             <div class="form-container">
                 <form action="#">
                     <div class="form-group">
@@ -113,10 +68,11 @@
                     <button type="submit" class="submit-button">Submit</button>
                 </form>
             </div>
-        </main>
-<!--        <br><br><br>-->
+        </div>
+        <div class="card-footer">
+            <button class="card-button">Action</button>
+        </div>
     </div>
 
-    <script src="/static/dashboard/script.js"></script>
-</body>
-</html>
+
+<?php include_once view_path('dashboard/footer.view.php'); ?>

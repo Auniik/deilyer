@@ -33,6 +33,13 @@ if (!function_exists('public_path')) {
     }
 }
 
+if (!function_exists('view_path')) {
+    function view_path(string $path = ''): string
+    {
+        return BASE_PATH . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $path;
+    }
+}
+
 if (!function_exists('config')) {
     function config(string $file): mixed
     {

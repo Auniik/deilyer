@@ -92,10 +92,11 @@ body {
     text-decoration: none;
     color: #555;
     padding: 10px 15px;
-    display: block;
     border-radius: 8px;
     box-shadow: 0px 1px 7px #c5c5c5;
     margin-right: 4px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .menu a:hover {
@@ -137,12 +138,12 @@ body {
 }
 
 .form-container {
-    background-color: #f0f0f3;
+       /* background-color: #f0f0f3; */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 8px 8px 16px #c5c5c5, -8px -8px 16px #ffffff;
+    /* box-shadow: 8px 8px 16px #c5c5c5, -8px -8px 16px #ffffff; */
     max-width: 600px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
 .form-group {
@@ -163,6 +164,12 @@ body {
     box-shadow: inset 4px 4px 8px #c5c5c5, inset -4px -4px 8px #ffffff;
     font-size: 1rem;
     color: #555;
+    outline: none;
+}
+.input-field:focus, .textarea-field:focus {
+    /*border-color: #007BFF !important;*/
+    /*box-shadow: 5px 3px 8px #c5c5c5, -2px -1px 8px #ffffff; !important;*/
+    background-color: rgba(224, 224, 224, 0.58);
 }
 
 .textarea-field {
@@ -178,13 +185,16 @@ body {
     padding: 10px;
     background-color: #e0e0e0;
     border-radius: 8px;
-    box-shadow: inset 4px 4px 8px #c5c5c5, inset -4px -4px 8px #ffffff;
-    flex-direction: row;
+    box-shadow: 4px 4px 8px #c5c5c5, -4px -4px 8px #ffffff;
+    flex-direction: column;
+    cursor: pointer;
+    user-select: none;
 }
 
 .radio-group input,
 .checkbox-group input {
     margin-right: 10px;
+    appearance: none;
 }
 
 /* Submit Button */
@@ -201,3 +211,54 @@ body {
 .submit-button:hover {
     background-color: #d0d0d0;
 }
+
+
+/* Card Styles */
+.card {
+    background-color: #f0f0f3;
+    border-radius: 12px;
+    box-shadow: 8px 8px 16px #c5c5c5;
+    padding: 20px;
+    /*max-width: 400px;*/
+    margin: 20px auto;
+}
+
+.card-header {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.card-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.card-body {
+    color: #555;
+    font-size: 1rem;
+}
+
+.card-footer {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+    margin-top: 15px;
+    text-align: right;
+}
+
+.card-button {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: #555;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px #c5c5c5, -4px -4px 8px #ffffff;
+    cursor: pointer;
+}
+
+.card-button:hover {
+    background-color: #d0d0d0;
+}
+
+
