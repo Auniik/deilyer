@@ -1,25 +1,27 @@
-FROM php:8.2-fpm
-# Install Dependencies
+# Use the official PHP image as the base image
+FROM php:8.3-cli
 
-RUN apt-get update && apt-get install -y git curl libpng-dev libonig-dev libxml2-dev zip unzip libxslt-dev libgcrypt-dev telnet
-RUN apt-get install -y wget dpkg fontconfig libfreetype6 libjpeg62-turbo libxrender1 xfonts-75dpi xfonts-base mariadb-client
+# Set the working directory inside the container
+WORKDIR /var/www/html
 
-#install some base extensions
-RUN apt-get install -y \
-        libzip-dev \
-        zip \
-        zlib1g-dev\
-  && docker-php-ext-install zip \
-  && docker-php-ext-install xsl \
-  && docker-php-ext-install gd
+# Install system dependencies, PHP extensions, and Composer
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install zip pdo pdo_mysql mysqli
 
-# Clear Cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql intl mbstring exif pcntl bcmath gd
-
-# Get latest Composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+# Copy your project files into the container
+COPY ../.. /var/www/html
+
+# Install project dependencies using Composer
+RUN composer install --no-scripts --no-autoloader
+
+# Expose port 8000
+EXPOSE 8000
+
+# Run PHP's built-in web server on port 8000
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

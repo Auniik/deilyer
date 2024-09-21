@@ -1,28 +1,54 @@
 services:
-  nginx:
-    image: nginx:1.20
-    container_name: DEILYER_NGINX
-    ports:
-      - "8099:80"
-    volumes:
-      - ./:/app
-      - ./docker-conf/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    links:
-      - php
+#  nginx:
+#    image: nginx:1.20
+#    container_name: DEILYER_NGINX
+#    ports:
+#      - "8099:80"
+#    volumes:
+#      - ./:/app
+#      - ./docker-conf/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+#    links:
+#      - php
+#
+#  php:
+#    container_name: DEILYER_PHP_FPM
+#    build:
+#      context: ./docker-conf/php
+#    volumes:
+#      - ./:/app
+#    env_file:
+#      - "./.env"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "200k"
+#        max-file: "3"
 
-  php:
-    container_name: DEILYER_PHP_FPM
+  app:
     build:
-      context: ./docker-conf/php
+      context: .
+      dockerfile: ./docker-conf/php/Dockerfile
+    ports:
+      - "8099:8000"
     volumes:
-      - ./:/app
+      - .:/var/www/html
+    environment:
+      APP_ENV: development
     env_file:
-      - "./.env"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "3"
+      - '.env'
+    # Optionally run composer install every time the container starts
+    command: bash -c "composer install && php -S 0.0.0.0:8000 -t public"
+#    container_name: DEILYER_PHP_FPM
+#    restart: unless-stopped
+#    build:
+#      args:
+#        user: admin
+#        uid: 100000
+#      context: ./docker-conf/php
+#    ports:
+#      - "8099:80"
+#    volumes:
+#      - .:/var/www:rw
 
   db:
     image: mariadb:10.3
