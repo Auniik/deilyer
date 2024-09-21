@@ -5,10 +5,32 @@
             <a href="#" class="menu-item">Dashboard</a>
         </li>
         <li>
-            <a href="#" class="menu-item">Users <i class="fa-solid fa-chevron-down"></i></a>
+            <a href="#" class="menu-item">Orders <i class="fa-solid fa-chevron-down"></i></a>
             <ul class="submenu">
-                <li><a href="#">Add User</a></li>
-                <li><a href="#">Manage Users</a></li>
+                <li><a href="/orders/create">Add Order</a></li>
+                <li><a href="/orders/list">Orders</a></li>
+                <li><a href="/orders/track">Track</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-item">Managers <i class="fa-solid fa-chevron-down"></i></a>
+            <ul class="submenu">
+                <li><a href="/managers/create">Add Manager</a></li>
+                <li><a href="/managers/list">Managers</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-item">Delivery Mens <i class="fa-solid fa-chevron-down"></i></a>
+            <ul class="submenu">
+                <li><a href="#">Add new</a></li>
+                <li><a href="#">Delivery Mens</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-item">Customers <i class="fa-solid fa-chevron-down"></i></a>
+            <ul class="submenu">
+                <li><a href="#">Add new</a></li>
+                <li><a href="#">Customers</a></li>
             </ul>
         </li>
         <li>

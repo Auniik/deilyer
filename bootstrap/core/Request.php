@@ -43,4 +43,18 @@ class Request
     {
         return $this->raw;
     }
+
+    public function __get($name)
+    {
+        return $instance->body[$name] ?? null;
+    }
+
+    public function get($key, $default = null)
+    {
+        return $this->body[$key] ?? $default;
+    }
+    public function all()
+    {
+        return $this->body;
+    }
 }

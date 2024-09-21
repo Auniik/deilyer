@@ -20,6 +20,7 @@ class Router
         bool $isAuthenticable = false
     )
     {
+
         foreach ($this->routes as $route) {
             if (
                 $this->match($route, $uri)
