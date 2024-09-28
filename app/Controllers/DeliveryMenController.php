@@ -11,23 +11,23 @@ use Core\Response;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 
-class ManagerController extends Controller
+class DeliveryMenController extends Controller
 {
     public function index(Request $request): bool|string
     {
-        $managers = User::query()
-            ->where('roles_mask', Role::MANAGER)
+        $deliveryMens = User::query()
+            ->where('roles_mask', Role::COORDINATOR)
             ->all();
 
-        return view('dashboard/managers/index.view', [
-            'managers' => $managers
+        return view('dashboard/delivery-men/index.view', [
+            'deliveryMens' => $deliveryMens
         ]);
     }
 
     public function create()
     {
 
-        return view('dashboard/managers/create.view', [
+        return view('dashboard/delivery-men/create.view', [
             'divisions' => Division::query()->all()
         ]);
     }
@@ -36,12 +36,13 @@ class ManagerController extends Controller
     {
         /** @var Auth $auth */
         $auth = $this->container->make('auth');
+
         $userId = $auth->admin()->createUser(
             $request->get('email'),
             $request->get('password'),
             $request->get('username')
         );
-        $auth->admin()->addRoleForUserById($userId, Role::MANAGER);
+        $auth->admin()->addRoleForUserById($userId, Role::COORDINATOR);
 
         foreach ($request->get('areas', []) as $area) {
             UserArea::query()->sync([
@@ -49,7 +50,7 @@ class ManagerController extends Controller
                 'area_id' => (int)$area
             ]);
         }
-        return Response::redirect('/managers/list');
+        return Response::redirect('/delivery-mens/list');
     }
 
     public function edit(Request $request, $id): bool|string
@@ -62,8 +63,8 @@ class ManagerController extends Controller
         $selected_division = Division::query()
             ->find($selected_district->division_id);
 
-        return view('dashboard/managers/edit.view', [
-            'manager' => User::query()->find($id),
+        return view('dashboard/delivery-men/edit.view', [
+            'deliveryMen' => User::query()->where('role_mask', Role::COORDINATOR)->find($id),
             'divisions' => Division::query()->all(),
             'selected_areas' => $areas,
             'selected_division' => $selected_division,

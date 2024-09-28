@@ -2,19 +2,19 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Add Manager</h3>
+        <h3>Edit Delivery Men</h3>
     </div>
     <div class="card-body">
         <div class="form-container">
-            <form action="/managers/<?= $manager->id ?>" method="POST">
+            <form action="/delivery-mens/<?= $deliveryMen->id ?>" method="POST">
                 <div class="form-group">
                     <label for="username">Name</label>
-                    <input type="text" id="username" name="username" value="<?= $manager->username ?>" class="input-field">
+                    <input type="text" id="username" name="username" value="<?= $deliveryMen->username ?>" class="input-field">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<?= $manager->email ?>" class="input-field">
+                    <input type="email" id="email" name="email" value="<?= $deliveryMen->email ?>" class="input-field">
                 </div>
 
                 <div class="form-group">

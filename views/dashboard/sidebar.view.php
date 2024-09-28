@@ -22,27 +22,25 @@
         <li>
             <a href="#" class="menu-item">Delivery Mens <i class="fa-solid fa-chevron-down"></i></a>
             <ul class="submenu">
-                <li><a href="#">Add new</a></li>
-                <li><a href="#">Delivery Mens</a></li>
+                <li><a href="/delivery-mens/create">Add new</a></li>
+                <li><a href="/delivery-mens/list">List</a></li>
             </ul>
         </li>
         <li>
             <a href="#" class="menu-item">Customers <i class="fa-solid fa-chevron-down"></i></a>
             <ul class="submenu">
-                <li><a href="#">Add new</a></li>
-                <li><a href="#">Customers</a></li>
+                <li><a href="/customers">List</a></li>
             </ul>
         </li>
         <li>
             <a href="#" class="menu-item">Settings <i class="fa-solid fa-chevron-down"></i></a>
             <ul class="submenu">
-                <li><a href="#">Profile</a></li>
+                <li><a href="">Profile</a></li>
                 <li><a href="#">Security</a></li>
             </ul>
         </li>
         <li>
             <a href="#" class="menu-item">Reports</a>
         </li>
-        <li><a href="#" class="menu-item">Logout</a></li>
     </ul>
 </aside>

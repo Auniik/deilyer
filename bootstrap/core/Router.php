@@ -166,7 +166,7 @@ class Router
     {
         if ($isAuthenticable) {
             if (!$this->app::make('auth')->isLoggedIn()) {
-                return Response::redirect("/login");
+                return Response::redirect("/?login");
             }
         }
         $instance = $this->app::get($route['handler']);

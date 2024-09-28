@@ -14,4 +14,6 @@ $boot = require BASE_PATH . DIRECTORY_SEPARATOR . 'bootstrap/bindings.php';
 
 $boot($app);
 
+require_once __DIR__ . '/core/Helpers/global.php';
+
 return $app;

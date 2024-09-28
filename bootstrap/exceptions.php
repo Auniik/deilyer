@@ -7,7 +7,7 @@ register_shutdown_function('handleShutdown');
 function handleException($exception): void
 {
     error_log("Uncaught Exception: " . $exception->getMessage());
-    http_response_code(500);
+//    http_response_code(500);
     displayErrorPage('Fatal Error', $exception->getMessage(), $exception->getFile(), $exception->getLine(), $exception->getTraceAsString());
 }
 

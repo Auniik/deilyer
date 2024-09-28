@@ -79,6 +79,10 @@ class Application
                 uri: $uri,
                 isAuthenticable: $isAuthenticable
             );
+        if (is_array($resolved)) {
+            return new Response(json_encode($resolved), 200, ['Content-Type' => 'application/json']);
+        }
+
         return $resolved;
     }
 
@@ -110,15 +114,28 @@ class Application
     public function serve()
     {
         $resolved = $this->bootRoutes('routes/guest.php');
+        if ($resolved instanceof Response) {
+            $resolved->send();
+            return;
+        }
+        if ($resolved instanceof View) {
+            return $resolved->dispatch();
+        }
         if ($resolved) {
             return;
         }
 
         $resolved = $this->bootRoutes('routes/auth.php', isAuthenticable: true);
+        if ($resolved instanceof Response) {
+            $resolved->send();
+            return;
+        }
+         if ($resolved instanceof View) {
+            return $resolved->dispatch();
+        }
         if ($resolved) {
             return;
         }
-
         abort(404);
     }
 

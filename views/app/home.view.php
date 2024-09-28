@@ -10,7 +10,7 @@
     <!-- Navbar -->
     <nav>
         <div class="navbar-container">
-            <span class=""><a class="logo" href="#">deilyer</a></span>
+            <span class=""><a class="logo" href="/">deilyer</a></span>
             <button class="navbar-toggler" id="navbar-toggler">&#9776;</button>
             <ul id="navbar-menu">
                 <a href="#home" class="active"><li>Home</li></a>
@@ -18,7 +18,12 @@
                 <a href="#contact"><li>Contact</li></a>
                 <a href="#testimonials"><li>Testimonials</li></a>
                 <a href="#track-order" id="track-order-btn"><li>Track Order</li></a>
+                <? if(!auth()->isLoggedIn()): ?>
                 <a href="#" id="login-btn"><li>Login</li></a>
+                <? else: ?>
+                <a href="/dashboard" id="logout"><li><?= user()?->username ?></li></a>
+                <a href="/logout" id="logout"><li>Logout</li></a>
+                <? endif ?>
             </ul>
         </div>
     </nav>
@@ -140,14 +145,16 @@
             <span class="close-btn">&times;</span>
             <h2>Register</h2><br>
             <div class="login-container">
-                <form action="/login" method="post">
+                <form action="/register" method="post">
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -171,5 +178,27 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/app/script.js"></script>
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // Now you can safely access and manipulate DOM elements
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Check if a specific key exists in the query parameters
+            if (urlParams.has('login')) {
+                // Simulate the click event on the login button
+                const loginButton = document.getElementById('login-btn');
+                setTimeout(() => loginButton.click(), 0)
+            }
+
+            if (urlParams.has('register')) {
+                // Simulate the click event on the login button
+                const regButton = document.getElementById('register-btn');
+                setTimeout(() => regButton.click(), 0)
+            }
+        });
+    </script>
 </body>
 </html>

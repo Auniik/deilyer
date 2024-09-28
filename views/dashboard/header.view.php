@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/static/dashboard/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="/static/dashboard/script.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -14,8 +17,13 @@
             <div class="navbar-container">
                 <div></div>
                 <ul class="navbar-menu">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <? if (auth()->isLoggedIn()): ?>
+                    <li><a href="#"><?= user()?->username ?></a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <? else: ?>
+                    <li>.</li>
+                    <? endif ?>
+
                 </ul>
             </div>
         </header>

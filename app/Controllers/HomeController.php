@@ -17,7 +17,6 @@ class HomeController extends Controller
      */
     public function view(Request $request)
     {
-
         return view('app/home.view', [
             'bonk' => [
                 'bonk' => $request,

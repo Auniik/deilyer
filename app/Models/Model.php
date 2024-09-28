@@ -34,6 +34,14 @@ class Model
         return $stmt->fetch(\PDO::FETCH_OBJ) ?: null;
     }
 
+    public function first($attributes = []): ?object
+    {
+        $attributes = $attributes ? implode(', ', $attributes) : '*';
+
+        $result = $this->all($attributes, 1);
+        return count($result) > 0  ? $result[0] : null;
+    }
+
     public function create($attributes, $find = true): ?object
     {
         $columns = implode(', ', array_keys($attributes));
@@ -73,14 +81,18 @@ class Model
         return $this->find($id);
     }
 
-    public function all($attributes = []): array
+    public function all($attributes = [], $limit = null): array
     {
-        $attributes = $attributes ? implode(', ', $attributes) : '*';
+        $attributes = is_array($attributes) && $attributes ? implode(', ', $attributes) : '*';
 
         $query = "SELECT $attributes FROM {$this->table}";
         if (!empty($this->where)) {
             $where = implode(' AND ', $this->where);
             $query .= " WHERE $where";
+        }
+        $this->where = [];
+        if ($limit) {
+            $query .= " LIMIT $limit";
         }
 
         $stmt = $this->pdo()->query($query);

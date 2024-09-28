@@ -51,38 +51,22 @@ if (!function_exists('abort')) {
     /**
      * @throws Exception
      */
-    function abort($code = 404): false|string
+    function abort($code = 404)
     {
-        http_response_code($code);
-
-        return view("errors/$code.view");
+        $viewEngine = view("errors/$code.view");
+        return $viewEngine->dispatch();
     }
 }
 
 
 if (!function_exists('view')) {
-    function view($path, $context = []): false|string
+    /**
+     * @throws Exception
+     */
+    function view($path, $context = []): \Core\View
     {
-        // Extract the data array into variables for use in the view
-        extract($context);
-
-        $viewFullPath = BASE_PATH .
-            DIRECTORY_SEPARATOR .
-            "views" .
-            DIRECTORY_SEPARATOR .
-            $path . ".php";
-
-        if (!file_exists($viewFullPath)) {
-            throw new \Exception('View file not found: ' . $path);
-        }
-
-        // Start output buffering
-//        ob_start();
-
-        include $viewFullPath;
-
-        // Get the contents of the output buffer and clean it
-        ob_get_clean();
-        return true;
+        $viewEngine = new \Core\View();
+        $viewEngine->render($path, $context);
+        return $viewEngine;
     }
 }

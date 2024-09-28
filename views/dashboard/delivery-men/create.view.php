@@ -2,19 +2,19 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Add Manager</h3>
+        <h3>Add Delivery Men</h3>
     </div>
     <div class="card-body">
         <div class="form-container">
-            <form action="/managers/<?= $manager->id ?>" method="POST">
+            <form action="/delivery-mens" method="POST">
                 <div class="form-group">
                     <label for="username">Name</label>
-                    <input type="text" id="username" name="username" value="<?= $manager->username ?>" class="input-field">
+                    <input type="text" id="username" name="username" class="input-field">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<?= $manager->email ?>" class="input-field">
+                    <input type="email" id="email" name="email" class="input-field">
                 </div>
 
                 <div class="form-group">
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Reset Password</label>
+                    <label for="password">New Password</label>
                     <input type="password" id="password" name="password" class="input-field">
                 </div>
 
@@ -53,18 +53,11 @@
 
     <script>
         const divisions = <?= json_encode($divisions) ?>;
+        console.log(divisions);
         const divisionSelect = document.getElementById('division');
-
         const districtSelect = document.getElementById('district');
         const areasCheckbox = document.querySelector('#areas');
-        const selectedAreas = <?= json_encode($selected_areas) ?>;
-        console.log(selectedAreas)
-
-        const selectedDivision = undefined
-        const selectedDistrict = undefined
-
         divisionSelect.addEventListener('change', (e) => {
-            console.log(e.target.value);
             districtSelect.innerHTML = '<option value="">Select District</option>';
             areasCheckbox.innerHTML = '';
             $.get(`/get-districts/${e.target.value}`, (data) => {
@@ -74,24 +67,8 @@
                     option.textContent = district.name;
                     districtSelect.appendChild(option);
                 });
-                setTimeout(() => {
-                    districtSelect.value = "<?= $selected_district->id ?>";
-                    // Trigger division change window event
-                    const event = new Event('change');
-                    districtSelect.dispatchEvent(event);
-                }, 0);
-
             });
         });
-
-        // Trigger division change window event
-        setTimeout(() => {
-            divisionSelect.value = "<?= $selected_division->id ?>";
-            // Trigger division change window event
-            const event = new Event('change');
-            divisionSelect.dispatchEvent(event);
-        }, 0);
-
         districtSelect.addEventListener('change', (e) => {
             const district = e.target.value;
             $.get(`/get-areas/${district}`, (data) => {
@@ -104,11 +81,6 @@
                     label.appendChild(input);
                     label.appendChild(document.createTextNode(area.name));
                     areasCheckbox.appendChild(label);
-                })
-                 areasCheckbox.querySelectorAll('input').forEach((input) => {
-                    if (selectedAreas.find((area) => area.area_id == input.value)) {
-                        input.parentElement.click();
-                    }
                 });
             });
         });

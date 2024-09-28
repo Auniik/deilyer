@@ -42,14 +42,21 @@ class RegisterController extends Controller
      */
     public function register(Request $request): bool
     {
-        /** @var Auth $auth */
+        try {
+            /** @var Auth $auth */
         $auth = $this->container->make('auth');
         $userId = $auth->register(
             $request->body['email'],
-            $request->body['password']
+            $request->body['password'],
+            $request->body['name']
         );
         $auth->admin()->addRoleForUserById($userId, Role::CONSUMER);
+        $auth->admin()->logInAsUserById($userId);
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
 
-        return Response::redirect('/profile');
+
+        return Response::redirect('/dashboard');
     }
 }

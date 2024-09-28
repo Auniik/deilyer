@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3>Managers</h3>
+            <h3>Delivery Mens</h3>
         </div>
         <div class="card-body">
 
@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($managers as $manager): ?>
+                    <?php foreach ($deliveryMens as $manager): ?>
                         <tr>
                             <td><?= $manager->id ?></td>
                             <td><?= $manager->username ?></td>
@@ -30,8 +30,8 @@
 <!--                            <td>--><?php //= $manager->status ?><!--</td>-->
                             <td><?= $manager->last_login ?></td>
                             <td>
-                                <a href="/managers/<?= $manager->id ?>/edit">Edit</a>
-                                <a href="/managers/<?= $manager->id ?>/delete">Delete</a>
+                                <a href="/delivery-mens/<?= $manager->id ?>/edit">Edit</a>
+                                <a href="/delivery-mens/<?= $manager->id ?>/delete">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

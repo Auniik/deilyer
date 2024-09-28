@@ -11,6 +11,7 @@ class Response
         return true;
     }
 
+
     public function __construct(
         protected $content,
         protected $status = 200,

@@ -21,8 +21,8 @@
                     <label for="division">Division</label>
                     <select id="division" name="division" class="input-field">
                         <option value="">Select One</option>
-                        <?php foreach ($divisions as $index => $division): ?>
-                            <option value="<?= $index ?>"><?= $division['name'] ?></option>
+                        <?php foreach ($divisions as $division): ?>
+                            <option value="<?= $division->id ?>"><?= $division->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -58,28 +58,32 @@
         const districtSelect = document.getElementById('district');
         const areasCheckbox = document.querySelector('#areas');
         divisionSelect.addEventListener('change', (e) => {
+            console.log(e.target.value);
             const division = divisions[e.target.value];
             districtSelect.innerHTML = '<option value="">Select District</option>';
             areasCheckbox.innerHTML = '';
-            division.districts.forEach((district, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = district.name;
-                districtSelect.appendChild(option);
+            $.get(`/get-districts/${e.target.value}`, (data) => {
+                data.forEach((district, index) => {
+                    const option = document.createElement('option');
+                    option.value = district.id;
+                    option.textContent = district.name;
+                    districtSelect.appendChild(option);
+                });
             });
         });
         districtSelect.addEventListener('change', (e) => {
-            const division = divisions[divisionSelect.value];
-            const district = division.districts[e.target.value];
-            district.area.forEach((area, i) => {
-                const label = document.createElement('label');
-                const input = document.createElement('input');
-                input.type = 'checkbox';
-                input.name = `areas[]`;
-                input.value = i;
-                label.appendChild(input);
-                label.appendChild(document.createTextNode(area));
-                areasCheckbox.appendChild(label);
+            const district = e.target.value;
+            $.get(`/get-areas/${district}`, (data) => {
+                data.forEach((area, i) => {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.name = `areas[]`;
+                    input.value = area.id;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(area.name));
+                    areasCheckbox.appendChild(label);
+                });
             });
         });
     </script>
