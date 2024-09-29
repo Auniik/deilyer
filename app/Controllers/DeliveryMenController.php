@@ -8,12 +8,13 @@ use App\Models\User;
 use App\Models\UserArea;
 use Core\Request;
 use Core\Response;
+use Core\View;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 
 class DeliveryMenController extends Controller
 {
-    public function index(Request $request): bool|string
+    public function index(Request $request): View
     {
         $deliveryMens = User::query()
             ->where('roles_mask', Role::COORDINATOR)
@@ -24,9 +25,11 @@ class DeliveryMenController extends Controller
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function create()
     {
-
         return view('dashboard/delivery-men/create.view', [
             'divisions' => Division::query()->all()
         ]);
@@ -53,7 +56,7 @@ class DeliveryMenController extends Controller
         return Response::redirect('/delivery-mens/list');
     }
 
-    public function edit(Request $request, $id): bool|string
+    public function edit(Request $request, $id): View
     {
         $areas = UserArea::query()
                 ->where('user_id', $id)

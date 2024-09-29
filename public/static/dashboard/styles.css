@@ -145,9 +145,13 @@ body {
     max-width: 600px;
     /* margin: 0 auto; */
 }
+.flex {
+    display: flex;
+}
 
 .form-group {
     margin-bottom: 20px;
+    margin: 5px 5px;
 }
 
 .label {
@@ -170,6 +174,11 @@ body {
     /*border-color: #007BFF !important;*/
     /*box-shadow: 5px 3px 8px #c5c5c5, -2px -1px 8px #ffffff; !important;*/
     background-color: rgba(224, 224, 224, 0.58);
+}
+
+.input-field:read-only {
+    box-shadow:  4px 4px 8px #c5c5c5,  -4px -4px 8px #ffffff;
+    cursor: not-allowed;
 }
 
 .textarea-field {
@@ -206,6 +215,20 @@ body {
     border-radius: 8px;
     box-shadow: 4px 4px 8px #c5c5c5, -4px -4px 8px #ffffff;
     cursor: pointer;
+    margin-top: 10px;
+}
+.btn {
+    padding: 12px 20px;
+    background-color: #e0e0e0;
+    color: #555;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px #c5c5c5, -4px -4px 8px #ffffff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.btn:hover {
+    background-color: #d0d0d0;
 }
 
 .submit-button:hover {
@@ -313,4 +336,9 @@ table tbody tr:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.vertical-line {
+    border-left: 1px solid black; /* Vertical line */
+    margin: 0 15px;
 }

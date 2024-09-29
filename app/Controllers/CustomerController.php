@@ -8,12 +8,13 @@ use App\Models\User;
 use App\Models\UserArea;
 use Core\Request;
 use Core\Response;
+use Core\View;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 
 class CustomerController extends Controller
 {
-    public function index(Request $request): bool|string
+    public function index(Request $request): View
     {
         $deliveryMens = User::query()
             ->where('roles_mask', Role::CONSUMER)
@@ -31,7 +32,7 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $id): bool|string
+    public function edit(Request $request, $id): View
     {
         return view('dashboard/customers/edit.view', [
             'customer' => User::query()->where('role_mask', Role::CONSUMER)->find($id)

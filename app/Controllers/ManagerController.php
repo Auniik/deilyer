@@ -8,12 +8,13 @@ use App\Models\User;
 use App\Models\UserArea;
 use Core\Request;
 use Core\Response;
+use Core\View;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 
 class ManagerController extends Controller
 {
-    public function index(Request $request): bool|string
+    public function index(Request $request): View
     {
         $managers = User::query()
             ->where('roles_mask', Role::MANAGER)
@@ -52,7 +53,7 @@ class ManagerController extends Controller
         return Response::redirect('/managers/list');
     }
 
-    public function edit(Request $request, $id): bool|string
+    public function edit(Request $request, $id): View
     {
         $areas = UserArea::query()
                 ->where('user_id', $id)

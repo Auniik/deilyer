@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use Core\View;
-use Delight\Auth\Auth;
-use Delight\Auth\Role;
 
 class DashboardController extends Controller
 {

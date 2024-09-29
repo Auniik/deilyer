@@ -3,20 +3,13 @@
 namespace App\Models;
 
 use Core\Database;
+use Exception;
+use PDO;
 
 class Model
 {
     private $where = [];
-
-    private function pdo()
-    {
-        return Database::pdo();
-    }
-
-    public static function query(): static
-    {
-        return new static();
-    }
+    private $order = [];
 
     public function where($column, $value, $operator = '='): self
     {
@@ -24,22 +17,61 @@ class Model
         return $this;
     }
 
-    public function find($id, $attributes = []): ?object
-    {
-        $attributes = $attributes ? implode(', ', $attributes) : '*';
-
-        $query = "SELECT $attributes FROM {$this->table} WHERE id = :id";
-        $stmt = $this->pdo()->prepare($query);
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(\PDO::FETCH_OBJ) ?: null;
-    }
-
     public function first($attributes = []): ?object
     {
         $attributes = $attributes ? implode(', ', $attributes) : '*';
 
         $result = $this->all($attributes, 1);
-        return count($result) > 0  ? $result[0] : null;
+        return count($result) > 0 ? $result[0] : null;
+    }
+
+    public function all($attributes = [], $limit = null): array
+    {
+        $attributes = is_array($attributes) && $attributes ? implode(', ', $attributes) : '*';
+
+        $query = "SELECT $attributes FROM {$this->table}";
+        if (!empty($this->where)) {
+            $where = implode(' AND ', $this->where);
+            $query .= " WHERE $where";
+        }
+        $this->where = [];
+
+        $orderConditions = [];
+
+        foreach ($this->order ?? [] as $field => $direction) {
+            $orderConditions[] = "$field $direction";
+        }
+        if ($orderConditions)
+            $query .= " ORDER BY " . implode(', ', $orderConditions);
+
+        if ($limit) {
+            $query .= " LIMIT $limit";
+        }
+
+        $stmt = $this->pdo()->query($query);
+        return $stmt->fetchAll(PDO::FETCH_OBJ) ?: [];
+    }
+
+    public static function query(): static
+    {
+        return new static();
+    }
+
+    private function pdo()
+    {
+        return Database::pdo();
+    }
+
+    public function sync($attributes): bool
+    {
+        try {
+            $this->create(attributes: $attributes, find: false);
+        } catch (Exception $e) {
+            if ($e->getCode() === '23000') {
+                return true;
+            }
+        }
+        return true;
     }
 
     public function create($attributes, $find = true): ?object
@@ -56,16 +88,14 @@ class Model
         return $this->find($this->pdo()->lastInsertId());
     }
 
-    public function sync($attributes): bool
+    public function find($id, $attributes = []): ?object
     {
-        try {
-            $this->create(attributes: $attributes, find: false);
-        } catch (\Exception $e) {
-            if ($e->getCode() === '23000') {
-                return true;
-            }
-        }
-        return true;
+        $attributes = $attributes ? implode(', ', $attributes) : '*';
+
+        $query = "SELECT $attributes FROM {$this->table} WHERE id = :id";
+        $stmt = $this->pdo()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_OBJ) ?: null;
     }
 
     public function update($id, $attributes): ?object
@@ -81,21 +111,9 @@ class Model
         return $this->find($id);
     }
 
-    public function all($attributes = [], $limit = null): array
+    public function orderBy($attribute, $order = 'ASC')
     {
-        $attributes = is_array($attributes) && $attributes ? implode(', ', $attributes) : '*';
-
-        $query = "SELECT $attributes FROM {$this->table}";
-        if (!empty($this->where)) {
-            $where = implode(' AND ', $this->where);
-            $query .= " WHERE $where";
-        }
-        $this->where = [];
-        if ($limit) {
-            $query .= " LIMIT $limit";
-        }
-
-        $stmt = $this->pdo()->query($query);
-        return $stmt->fetchAll(\PDO::FETCH_OBJ) ?: [];
+        $this->order[$attribute] = $order;
+        return $this;
     }
 }
